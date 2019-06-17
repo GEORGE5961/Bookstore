@@ -1,21 +1,39 @@
 package com.zhengyu.bookstore.model;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "orders")
 public class Order {
 
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private int userid;
+
+	@Column(nullable = false)
 	private Date date;
+
+	@Column(nullable = false)
 	private String status;
+
+	@ManyToOne()
+	@JoinColumn(name = "userid")
+	private User user;
+
+	@OneToMany()
+	//@JoinColumn(name = "id")
+	//@OrderBy("id asc")
+	private Set<Orderitem> orderitems = new HashSet<Orderitem>();
 
 	public Order() {
 	}
 
-	public Order(int userid, Date date, String status) {
-		this.userid = userid;
+	public Order(User user, Date date, String status) {
+		this.user = user;
 		this.date = date;
 		this.status = status;
 	}
@@ -26,14 +44,6 @@ public class Order {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getUserid() {
-		return userid;
-	}
-
-	public void setUserid(int userid) {
-		this.userid = userid;
 	}
 
 	public Date getDate() {
@@ -51,8 +61,14 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	private Set<Orderitem> orderitems = new HashSet<Orderitem>();
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public Set<Orderitem> getOrderitems() {
 		return orderitems;

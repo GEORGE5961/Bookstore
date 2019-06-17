@@ -1,27 +1,41 @@
 package com.zhengyu.bookstore.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "orderitems")
 public class Orderitem {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private int orderid;
+
+	@Column(nullable = false)
 	private int bookid;
+
+	@Column(nullable = false)
 	private int amount;
+
+	@Column(nullable = false)
 	private int price;
+
+	@ManyToOne()
+	@JoinColumn(name = "orderid")
+	private Order order;
 
 	public Orderitem() {
 	}
 
-	public Orderitem(int orderid, int bookid, int amount, int price) {
-		this.orderid = orderid;
+	public Orderitem(Order order, int bookid, int amount, int price) {
+		this.order = order;
 		this.bookid = bookid;
 		this.amount = amount;
 		this.price = price;
 	}
+
 
 	public int getId() {
 		return id;
@@ -31,13 +45,6 @@ public class Orderitem {
 		this.id = id;
 	}
 
-	public int getOrderid() {
-		return orderid;
-	}
-
-	public void setOrderid(int orderid) {
-		this.orderid = orderid;
-	}
 
 	public int getBookid() {
 		return bookid;
@@ -62,8 +69,6 @@ public class Orderitem {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
-	private Order order;
 
 	public Order getOrder() {
 		return order;

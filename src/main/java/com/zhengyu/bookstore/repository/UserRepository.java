@@ -11,9 +11,9 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Integer> {
 
 
-	@Query(value = "update users set username=?1 where id=?2",nativeQuery = true)   //占位符传值形式
-	@Modifying
-	int updateById(String name, int id);
+	//@Query(value = "update users set username=?1 where id=?2",nativeQuery = true)   //占位符传值形式
+	//@Modifying
+	//int updateById(String name, int id);
 
 	User findById(int userId);
 
